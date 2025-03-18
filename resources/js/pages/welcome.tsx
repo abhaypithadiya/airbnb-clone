@@ -2,6 +2,7 @@ import RegisterModal from '@/components/modals/register-modal';
 import Navbar from '@/components/navbar/navbar';
 import { type SharedData } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
+import HomeListing from './home/home-listing';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
@@ -14,6 +15,9 @@ export default function Welcome() {
             </Head>
             <RegisterModal />
             <Navbar />
+            <div className="pt-28 pb-20">
+                <HomeListing />
+            </div>
         </>
     );
 }

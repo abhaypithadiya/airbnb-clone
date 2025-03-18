@@ -28,6 +28,12 @@
             html.dark {
                 background-color: oklch(0.145 0 0);
             }
+            .swiper-pagination-bullet {
+                background-color: rgb(255, 255, 255)!important;
+            }
+            .swiper-pagination-bullet-active {
+                background-color: rgb(255, 255, 255)!important;
+            }
         </style>
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>

@@ -53,7 +53,6 @@ const Categories = () => {
         swiper.slideTo(swiper.activeIndex - 8);
     }, []);
 
-    // Function to slide multiple slides to the right
     const handleNext = useCallback(() => {
         if (!sliderRef.current) return;
         const swiper = sliderRef.current.swiper;
