@@ -66,13 +66,13 @@ const Modal: React.FC<ModalProps> = ({
 
     return (
         <>
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-800/70">
+            <div onClick={handleClose} className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-800/70">
                 <div className="relative mx-auto my-6 h-full w-full md:h-auto md:w-4/6 lg:h-auto lg:w-3/6 xl:w-2/5">
-                    {/* Content */}
                     <div
+                        onClick={(e) => e.stopPropagation()}
                         className={`translate h-full duration-300 ${showModal ? 'translate-y-0' : 'translate-y-full'} ${showModal ? 'opacity-100' : 'opacity-0'}`}
                     >
-                        <div className="translate relative flex h-full w-full flex-col rounded-lg border-0 bg-white shadow-lg md:h-auto lg:h-auto">
+                        <div className="translate relative flex h-full w-full flex-col rounded-3xl border-0 bg-white shadow-lg md:h-auto lg:h-auto">
                             <div className="relative flex items-center justify-center rounded-t border-b-[1px] p-6">
                                 <button
                                     onClick={handleClose}
@@ -82,11 +82,15 @@ const Modal: React.FC<ModalProps> = ({
                                 </button>
                                 <div className="text-lg font-semibold">{title}</div>
                             </div>
-                            <div className="relative flex-auto p-6">{body}</div>
+                            <div className="relative flex-auto p-6 pb-0">{body}</div>
                             <div className="flex flex-col gap-2 p-6">
                                 <div className="flex w-full flex-row items-center gap-4">
+                                    {secondaryActionLabel && secondaryAction && (
+                                        <Button outline disabled={disabled} label={secondaryActionLabel} onClick={handleSecondaryAction} />
+                                    )}
                                     <Button disabled={disabled} label={actionLabel} onClick={handleSubmit} />
                                 </div>
+                                {footer}
                             </div>
                         </div>
                     </div>
