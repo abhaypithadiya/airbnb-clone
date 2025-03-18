@@ -88,7 +88,7 @@ const Categories = () => {
                         </div>
                     </div>
 
-                    <div className="relative flex cursor-pointer flex-row items-center gap-3 rounded-xl border-[2px] border-neutral-200 p-4 transition hover:border-neutral-700 hover:bg-neutral-100 md:px-4 md:py-3">
+                    <div className="relative flex cursor-pointer flex-row items-center gap-3 rounded-xl border-[1px] border-neutral-200 p-4 transition hover:border-neutral-700 hover:bg-neutral-100 md:px-4 md:py-3">
                         <LuSettings2 />
                         <div className="hidden text-sm font-semibold md:block">Filters</div>
                         {/* <div className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-white">
