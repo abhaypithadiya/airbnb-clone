@@ -34,7 +34,7 @@ const UserMenu: React.FC = () => {
                 </div>
                 <div
                     onClick={toggleOpen}
-                    className="flex cursor-pointer flex-row items-center gap-3 rounded-full border-[1px] border-neutral-200 p-4 transition hover:shadow-md md:px-4 md:py-3"
+                    className="flex cursor-pointer flex-row items-center gap-3 rounded-full border-[1px] border-neutral-200 p-3 transition hover:shadow-md md:px-3 md:py-2"
                 >
                     <AiOutlineMenu />
                     <div className="hidden md:block">
@@ -44,7 +44,7 @@ const UserMenu: React.FC = () => {
             </div>
 
             {isOpen && (
-                <div className="absolute top-16 right-0 w-[60vw] overflow-hidden rounded-xl bg-white text-sm shadow-xl md:w-4/4">
+                <div className="absolute top-16 right-0 z-10 w-[60vw] overflow-hidden rounded-xl bg-white text-sm shadow-xl md:w-4/4">
                     <div className="flex flex-col py-2">
                         <UserMenuItem onClick={registerModal.onOpen} label="Sign Up" />
                         <UserMenuItem onClick={registerModal.onOpen} label="Login" />

@@ -74,6 +74,9 @@ const ListingCard: React.FC<listingCardProps> = ({ id }) => {
                     <div className="absolute top-3 right-3 z-2 text-black">
                         <HeartButton id={id} />
                     </div>
+                    <div className="absolute top-3 left-3 z-2 rounded-full bg-white px-3 py-2 text-sm font-bold text-black shadow-xl">
+                        Guest favourite
+                    </div>
                 </div>
                 <div className="flex flex-col">
                     <div className="flex items-center justify-between">
