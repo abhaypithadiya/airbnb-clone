@@ -29,13 +29,6 @@ const ListingCard: React.FC<listingCardProps> = ({ id }) => {
                         pagination={{
                             dynamicBullets: true,
                         }}
-                        injectStyles={[
-                            `
-                            .swiper-pagination-bullet {
-                                background-color: red;
-                            }
-                            `,
-                        ]}
                     >
                         <SwiperSlide>
                             <img
