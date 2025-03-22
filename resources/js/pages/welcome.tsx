@@ -1,3 +1,4 @@
+import BottomButton from '@/components/bottom-button';
 import RegisterModal from '@/components/modals/register-modal';
 import Navbar from '@/components/navbar/navbar';
 import { type SharedData } from '@/types';
@@ -18,6 +19,7 @@ export default function Welcome() {
             <div className="pt-28 pb-20">
                 <HomeListing />
             </div>
+            <BottomButton />
         </>
     );
 }
