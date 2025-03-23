@@ -1,4 +1,6 @@
 import useRegisterModal from '@/hooks/use-register-modal';
+import { type SharedData } from '@/types';
+import { usePage } from '@inertiajs/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import Avatar from './avatar';
@@ -8,6 +10,7 @@ const UserMenu: React.FC = () => {
     const registerModal = useRegisterModal();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
+    const { auth } = usePage<SharedData>().props;
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
@@ -46,12 +49,30 @@ const UserMenu: React.FC = () => {
             {isOpen && (
                 <div className="absolute top-16 right-0 z-10 w-[60vw] overflow-hidden rounded-xl bg-white text-sm shadow-xl md:w-4/4">
                     <div className="flex flex-col py-2">
-                        <UserMenuItem onClick={registerModal.onOpen} label="Sign Up" />
-                        <UserMenuItem onClick={registerModal.onOpen} label="Login" />
+                        {auth.user ? (
+                            <>
+                                <UserMenuItem onClick={() => {}} label="Messages" />
+                                <UserMenuItem onClick={() => {}} label="Notifications" />
+                                <UserMenuItem onClick={() => {}} label="Trips" />
+                                <UserMenuItem onClick={() => {}} label="Wishlists" />
+                            </>
+                        ) : (
+                            <>
+                                <UserMenuItem onClick={registerModal.onOpen} label="Sign Up" />
+                                <UserMenuItem onClick={registerModal.onOpen} label="Login" />
+                            </>
+                        )}
+
                         <hr />
                         <UserMenuItem onClick={() => {}} label="Airbnb your home" />
                         <UserMenuItem onClick={() => {}} label="Host an experience" />
                         <UserMenuItem onClick={() => {}} label="Help Center" />
+                        {auth.user && (
+                            <>
+                                <hr />
+                                <UserMenuItem onClick={() => {}} label="Logout" />
+                            </>
+                        )}
                     </div>
                 </div>
             )}
