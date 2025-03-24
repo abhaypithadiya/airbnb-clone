@@ -22,7 +22,7 @@ const RegisterModal = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
 
-    const { data, setData, post, processing, errors, reset } = useForm<RegisterUser>({
+    const { data, setData, post, errors, reset } = useForm<RegisterUser>({
         firstName: '',
         lastName: '',
         dateOfBirth: '',

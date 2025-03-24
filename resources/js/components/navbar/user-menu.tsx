@@ -19,7 +19,7 @@ const UserMenu: React.FC = () => {
 
     const logout = useCallback(() => {
         post(route('logout'));
-    }, []);
+    }, [post]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

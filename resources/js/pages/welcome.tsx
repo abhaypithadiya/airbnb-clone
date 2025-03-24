@@ -1,13 +1,10 @@
 import BottomButton from '@/components/bottom-button';
 import RegisterModal from '@/components/modals/register-modal';
 import Navbar from '@/components/navbar/navbar';
-import { type SharedData } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import HomeListing from './home/home-listing';
 
 export default function Welcome() {
-    const { auth } = usePage<SharedData>().props;
-
     return (
         <>
             <Head title="Airbnb | Holiday rentals, cabins, beach houses & more">
