@@ -1,6 +1,6 @@
 import useRegisterModal from '@/hooks/use-register-modal';
 import { type SharedData } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import Avatar from './avatar';
@@ -11,9 +11,14 @@ const UserMenu: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const { auth } = usePage<SharedData>().props;
+    const { post } = useForm();
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
+    }, []);
+
+    const logout = useCallback(() => {
+        post(route('logout'));
     }, []);
 
     useEffect(() => {
@@ -70,7 +75,7 @@ const UserMenu: React.FC = () => {
                         {auth.user && (
                             <>
                                 <hr />
-                                <UserMenuItem onClick={() => {}} label="Logout" />
+                                <UserMenuItem onClick={logout} label="Logout" />
                             </>
                         )}
                     </div>
