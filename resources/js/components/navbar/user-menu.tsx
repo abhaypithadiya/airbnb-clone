@@ -18,7 +18,9 @@ const UserMenu: React.FC = () => {
     }, []);
 
     const logout = useCallback(() => {
-        post(route('logout'));
+        post(route('logout'), {
+            onSuccess: () => setIsOpen(false),
+        });
     }, [post]);
 
     useEffect(() => {
