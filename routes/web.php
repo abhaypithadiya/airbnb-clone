@@ -1,11 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
+
+Route::post('/check-email', function (Request $request) {
+    $request->validate([
+        'email' => ['required', 'email', 'exists:users,email'],
+    ]);
+
+    $email = $request->email;
+
+    dd($email);
+})->name('register.check-email');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {

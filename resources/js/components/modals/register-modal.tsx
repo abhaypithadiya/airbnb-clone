@@ -38,8 +38,13 @@ const RegisterModal = () => {
     }, [registerModal.isOpen, reset]);
 
     function handleSubmit() {
+        post(route('register.check-email'), {
+            onStart: () => setIsLoading(true),
+            onSuccess: () => closeModal(),
+            onFinish: () => setIsLoading(false),
+        });
         console.log('form is submitted');
-        setStep(2);
+        // setStep(2);
     }
 
     function closeModal() {
@@ -56,9 +61,18 @@ const RegisterModal = () => {
     }
 
     const bodyContent = (
-        <div className="flex flex-col gap-4">
-            <div className="text-2xl font-bold">Welcome to Airbnb</div>
-            <Input id="email" label="Email" disabled={isLoading} required />
+        <div className="flex flex-col">
+            <div className="mb-[16px] text-2xl font-bold">Welcome to Airbnb</div>
+            <Input
+                id="email"
+                label="Email"
+                value={data.email}
+                onChange={(e) => setData('email', e.target.value)}
+                disabled={isLoading}
+                required
+                className={`${errors.email ? 'border-red-700 bg-red-400/10 focus:border-2 focus:border-red-700' : ''}`}
+            />
+            <InputError className="mt-2" message={errors.email} />
         </div>
     );
 
