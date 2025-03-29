@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,12 +13,14 @@ Route::get('/', function () {
 
 Route::post('/check-email', function (Request $request) {
     $request->validate([
-        'email' => ['required', 'email', 'exists:users,email'],
+        'email' => ['required', 'email'],
     ]);
 
     $email = $request->email;
 
-    dd($email);
+    $checkIfEmailExists = User::where('email', $email)->first();
+
+    return redirect()->back()->with(['user_exists', $checkIfEmailExists ? true : false]);
 })->name('register.check-email');
 
 Route::middleware(['auth', 'verified'])->group(function () {

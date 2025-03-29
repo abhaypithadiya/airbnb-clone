@@ -1,5 +1,5 @@
 import useRegisterModal from '@/hooks/use-register-modal';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { BsPhone } from 'react-icons/bs';
 import { FaApple, FaFacebook } from 'react-icons/fa';
@@ -17,12 +17,17 @@ interface RegisterUser {
     password: string;
 }
 
+interface CheckEmailResponse {
+    user_exists: boolean;
+}
+
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
+    const { user_exists } = usePage().props;
 
-    const { data, setData, post, errors, reset } = useForm<RegisterUser>({
+    const { data, setData, post, errors, reset, clearErrors } = useForm<RegisterUser>({
         firstName: '',
         lastName: '',
         dateOfBirth: '',
@@ -33,18 +38,25 @@ const RegisterModal = () => {
     useEffect(() => {
         if (registerModal.isOpen) {
             reset();
+            clearErrors();
             setStep(1);
         }
-    }, [registerModal.isOpen, reset]);
+    }, [registerModal.isOpen, reset, clearErrors]);
 
     function handleSubmit() {
         post(route('register.check-email'), {
             onStart: () => setIsLoading(true),
-            onSuccess: () => closeModal(),
+            onSuccess: (response: any) => {
+                console.log('User exists:', user_exists);
+                // if (response?.user_exists) {
+                //     alert('User already exists!');
+                // } else {
+                //     console.log('User does not exist. Proceeding...');
+                // }
+                // closeModal();
+            },
             onFinish: () => setIsLoading(false),
         });
-        console.log('form is submitted');
-        // setStep(2);
     }
 
     function closeModal() {
