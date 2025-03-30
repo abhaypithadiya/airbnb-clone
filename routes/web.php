@@ -20,7 +20,7 @@ Route::post('/check-email', function (Request $request) {
 
     $checkIfEmailExists = User::where('email', $email)->first();
 
-    return redirect()->back()->with(['user_exists', $checkIfEmailExists ? true : false]);
+    return response()->json(['user_exists' => $checkIfEmailExists ? true : false]);
 })->name('register.check-email');
 
 Route::middleware(['auth', 'verified'])->group(function () {

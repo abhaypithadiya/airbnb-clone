@@ -1,5 +1,6 @@
 import useRegisterModal from '@/hooks/use-register-modal';
-import { useForm, usePage } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
+import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { BsPhone } from 'react-icons/bs';
 import { FaApple, FaFacebook } from 'react-icons/fa';
@@ -17,17 +18,16 @@ interface RegisterUser {
     password: string;
 }
 
-interface CheckEmailResponse {
-    user_exists: boolean;
+interface ValidationError {
+    [key: string]: string[];
 }
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
-    const { user_exists } = usePage().props;
 
-    const { data, setData, post, errors, reset, clearErrors } = useForm<RegisterUser>({
+    const { data, setData, post, errors, reset, clearErrors, setError } = useForm<RegisterUser>({
         firstName: '',
         lastName: '',
         dateOfBirth: '',
@@ -43,20 +43,33 @@ const RegisterModal = () => {
         }
     }, [registerModal.isOpen, reset, clearErrors]);
 
-    function handleSubmit() {
-        post(route('register.check-email'), {
-            onStart: () => setIsLoading(true),
-            onSuccess: (response: any) => {
-                console.log('User exists:', user_exists);
-                // if (response?.user_exists) {
-                //     alert('User already exists!');
-                // } else {
-                //     console.log('User does not exist. Proceeding...');
-                // }
-                // closeModal();
-            },
-            onFinish: () => setIsLoading(false),
-        });
+    function handleSubmit(): void {
+        setIsLoading(true);
+        clearErrors();
+
+        axios
+            .post(route('register.check-email'), { email: data.email })
+            .then((response) => {
+                var checkIfUserExists = response.data.user_exists;
+                if (checkIfUserExists) {
+                    // show login
+                } else {
+                    setStep(2);
+                }
+            })
+            .catch((error: AxiosError<{ errors: ValidationError }>) => {
+                const response = error?.response;
+                if (response?.status === 422 && response?.data?.errors) {
+                    Object.entries(response.data.errors).forEach(([key, messages]) =>
+                        setError(key, Array.isArray(messages) ? messages[0] : messages),
+                    );
+                } else {
+                    console.error('Error:', response?.data || 'An unexpected error occurred');
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
 
     function closeModal() {
