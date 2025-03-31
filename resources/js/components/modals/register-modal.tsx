@@ -50,7 +50,7 @@ const RegisterModal = () => {
         axios
             .post(route('register.check-email'), { email: data.email })
             .then((response) => {
-                var checkIfUserExists = response.data.user_exists;
+                const checkIfUserExists = response.data.user_exists;
                 if (checkIfUserExists) {
                     // show login
                 } else {

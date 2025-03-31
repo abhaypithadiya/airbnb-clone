@@ -5,10 +5,9 @@ interface inputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string;
     type?: string;
     disabled?: boolean;
-    required?: boolean;
 }
 
-const Input: React.FC<inputProps> = ({ id, label, type = 'text', disabled, required, className, ...props }) => {
+const Input: React.FC<inputProps> = ({ id, label, type = 'text', disabled, className, ...props }) => {
     return (
         <div className="relative w-full">
             <input
