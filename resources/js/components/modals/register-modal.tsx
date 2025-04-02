@@ -25,7 +25,7 @@ interface ValidationError {
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
-    const [step, setStep] = useState(1);
+    const [mode, setMode] = useState<'register' | 'default'>('default');
 
     const { data, setData, post, errors, reset, clearErrors, setError } = useForm<RegisterUser>({
         firstName: '',
@@ -39,7 +39,7 @@ const RegisterModal = () => {
         if (registerModal.isOpen) {
             reset();
             clearErrors();
-            setStep(1);
+            setMode('default');
         }
     }, [registerModal.isOpen, reset, clearErrors]);
 
@@ -53,8 +53,9 @@ const RegisterModal = () => {
                 const checkIfUserExists = response.data.user_exists;
                 if (checkIfUserExists) {
                     // show login
+                    console.log('test');
                 } else {
-                    setStep(2);
+                    setMode('register');
                 }
             })
             .catch((error: AxiosError<{ errors: ValidationError }>) => {
@@ -111,7 +112,7 @@ const RegisterModal = () => {
         </div>
     );
 
-    const stepTwoBodyContent = (
+    const registerBodyContent = (
         <div>
             <form className="flex flex-col gap-4">
                 <div className="text-md font-bold">Legal Name</div>
@@ -197,7 +198,7 @@ const RegisterModal = () => {
         </div>
     );
 
-    const stepTwoFooterContent = (
+    const registerFooterContent = (
         <div className="mt-3 flex flex-col gap-4">
             <hr />
             <p className="text-xs">
@@ -211,16 +212,42 @@ const RegisterModal = () => {
         </div>
     );
 
+    const modalConfigs = {
+        // login: {
+        //     title: 'Log in',
+        //     actionLabel: 'Continue',
+        //     onSubmit: handleLogin,
+        //     body: loginBody,
+        //     footer: loginFooter,
+        // },
+        register: {
+            title: 'Finish signing up',
+            actionLabel: 'Agree and Continue',
+            onSubmit: registerUser,
+            body: registerBodyContent,
+            footer: registerFooterContent,
+        },
+        default: {
+            title: 'Log in or sign up',
+            actionLabel: 'Continue',
+            onSubmit: handleSubmit,
+            body: bodyContent,
+            footer: footerContent,
+        },
+    };
+
+    const currentConfig = modalConfigs[mode];
+
     return (
         <Modal
             disabled={isLoading}
             isOpen={registerModal.isOpen}
-            title={step == 1 ? 'Log in or sign up' : 'Finish signing up'}
-            actionLabel={step == 1 ? 'Continue' : 'Agree and Continue'}
+            title={currentConfig.title}
+            actionLabel={currentConfig.actionLabel}
             onClose={registerModal.onClose}
-            onSubmit={step == 1 ? handleSubmit : registerUser}
-            body={step == 1 ? bodyContent : stepTwoBodyContent}
-            footer={step == 1 ? footerContent : stepTwoFooterContent}
+            onSubmit={currentConfig.onSubmit}
+            body={currentConfig.body}
+            footer={currentConfig.footer}
         />
     );
 };
