@@ -25,13 +25,13 @@ interface ValidationError {
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
-    const [mode, setMode] = useState<'register' | 'default'>('default');
+    const [mode, setMode] = useState<'login' | 'register' | 'default'>('default');
 
     const { data, setData, post, errors, reset, clearErrors, setError } = useForm<RegisterUser>({
         firstName: '',
         lastName: '',
         dateOfBirth: '',
-        email: '',
+        email: 'abhaypithadiya@gmail.com',
         password: '',
     });
 
@@ -52,8 +52,7 @@ const RegisterModal = () => {
             .then((response) => {
                 const checkIfUserExists = response.data.user_exists;
                 if (checkIfUserExists) {
-                    // show login
-                    console.log('test');
+                    setMode('login');
                 } else {
                     setMode('register');
                 }
@@ -85,6 +84,32 @@ const RegisterModal = () => {
             onFinish: () => setIsLoading(false),
         });
     }
+
+    function loginUser() {
+        post(route('login.store'), {
+            onStart: () => setIsLoading(true),
+            onSuccess: () => closeModal(),
+            onFinish: () => setIsLoading(false),
+        });
+    }
+
+    const loginBodyContent = (
+        <form action="">
+            <Input
+                id="password"
+                value={data.password}
+                onChange={(e) => setData('password', e.target.value)}
+                label="Password"
+                type="password"
+                disabled={isLoading}
+                required
+                className={`${errors.password ? 'border-red-700 bg-red-400/10 focus:border-2 focus:border-red-700' : ''}`}
+            />
+            <InputError className="mt-2" message={errors.password} />
+        </form>
+    );
+
+    const loginFooterContent = <p className="mt-2 cursor-pointer text-sm font-semibold underline hover:text-black">Forgotten your password?</p>;
 
     const bodyContent = (
         <div className="flex flex-col">
@@ -213,13 +238,13 @@ const RegisterModal = () => {
     );
 
     const modalConfigs = {
-        // login: {
-        //     title: 'Log in',
-        //     actionLabel: 'Continue',
-        //     onSubmit: handleLogin,
-        //     body: loginBody,
-        //     footer: loginFooter,
-        // },
+        login: {
+            title: 'Log In',
+            actionLabel: 'Log In',
+            onSubmit: loginUser,
+            body: loginBodyContent,
+            footer: loginFooterContent,
+        },
         register: {
             title: 'Finish signing up',
             actionLabel: 'Agree and Continue',
