@@ -31,7 +31,7 @@ const RegisterModal = () => {
         firstName: '',
         lastName: '',
         dateOfBirth: '',
-        email: 'abhaypithadiya@gmail.com',
+        email: 'ketanpithadiya@gmail.com',
         password: '',
     });
 
@@ -103,9 +103,10 @@ const RegisterModal = () => {
                 type="password"
                 disabled={isLoading}
                 required
-                className={`${errors.password ? 'border-red-700 bg-red-400/10 focus:border-2 focus:border-red-700' : ''}`}
+                className={`${errors.password || errors.email ? 'border-red-700 bg-red-400/10 focus:border-2 focus:border-red-700' : ''}`}
             />
             <InputError className="mt-2" message={errors.password} />
+            <InputError className="mt-2" message={errors.email} />
         </form>
     );
 
