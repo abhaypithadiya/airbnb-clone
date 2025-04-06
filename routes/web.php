@@ -11,6 +11,10 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
+Route::get('/individual-listing', function () {
+    return Inertia::render('listing/individual-listing');
+})->name('individual-listing');
+
 Route::post('/check-email', function (Request $request) {
     $request->validate([
         'email' => ['required', 'email'],

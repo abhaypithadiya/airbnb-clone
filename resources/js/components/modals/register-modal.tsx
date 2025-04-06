@@ -31,7 +31,7 @@ const RegisterModal = () => {
         firstName: '',
         lastName: '',
         dateOfBirth: '',
-        email: 'ketanpithadiya@gmail.com',
+        email: '',
         password: '',
     });
 
